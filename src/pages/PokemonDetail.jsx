@@ -1,10 +1,14 @@
 import { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { POKEMON_TYPES, getTypeName } from '../constants/pokemonTypes';
 
-function PokemonDetail() {
+function PokemonDetail({ onTypeSelect }) {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [pokemon, setPokemon] = useState(null);
+  const [similarPokemons, setSimilarPokemons] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const pokemonsPerPage = 40;
 
   useEffect(() => {
     const fetchPokemonDetail = async () => {
@@ -12,6 +16,27 @@ function PokemonDetail() {
         const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
         const data = await response.json();
         setPokemon(data);
+
+        // Chercher des Pokémon similaires (même type)
+        const allPokemonResponse = await fetch('https://pokeapi.co/api/v2/pokemon?limit=1000');
+        const allPokemonData = await allPokemonResponse.json();
+        
+        const similarPokemonDetails = await Promise.all(
+          allPokemonData.results.map(async (p) => {
+            const res = await fetch(p.url);
+            return res.json();
+          })
+        );
+
+        // Filtrer pour avoir les Pokémon du même type
+        const similar = similarPokemonDetails.filter(p => 
+          p.id !== parseInt(id) && // Exclure le Pokémon actuel
+          p.types.some(t1 => 
+            data.types.some(t2 => t2.type.name === t1.type.name)
+          )
+        );
+
+        setSimilarPokemons(similar);
       } catch (error) {
         console.error('Erreur lors du chargement du Pokémon:', error);
       }
@@ -25,6 +50,25 @@ function PokemonDetail() {
       t.englishName === typeName.toLowerCase()
     );
     return type ? type.color : '#777777';
+  };
+
+  const handleTypeClick = (typeName) => {
+    const type = POKEMON_TYPES.find(t => t.englishName === typeName.toLowerCase());
+    if (type) {
+      onTypeSelect(type.name);
+      navigate('/');
+    }
+  };
+
+  // Pagination pour les Pokémon similaires
+  const indexOfLastPokemon = currentPage * pokemonsPerPage;
+  const indexOfFirstPokemon = indexOfLastPokemon - pokemonsPerPage;
+  const currentPokemons = similarPokemons.slice(indexOfFirstPokemon, indexOfLastPokemon);
+  const totalPages = Math.ceil(similarPokemons.length / pokemonsPerPage);
+
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+    window.scrollTo(0, 0);
   };
 
   if (!pokemon) return <div>Chargement...</div>;
@@ -59,8 +103,10 @@ function PokemonDetail() {
                 key={type.type.name}
                 className="type-badge"
                 style={{
-                  backgroundColor: getTypeColor(type.type.name)
+                  backgroundColor: getTypeColor(type.type.name),
+                  cursor: 'pointer'
                 }}
+                onClick={() => handleTypeClick(type.type.name)}
               >
                 {getTypeName(type.type.name)}
               </span>
@@ -96,6 +142,84 @@ function PokemonDetail() {
           </Link>
         </div>
       </div>
+
+      <h2 className="similar-title">Pokémon similaires</h2>
+      
+      <div className="grid">
+        {currentPokemons.map((pokemon) => (
+          <Link to={`/pokemon/${pokemon.id}`} key={pokemon.id} className="card">
+            <img
+              src={pokemon.sprites.front_default}
+              alt={pokemon.name}
+              className="pokemon-image"
+            />
+            <h2 className="pokemon-name">
+              {pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}
+            </h2>
+            <div className="pokemon-types">
+              {pokemon.types.map((type) => (
+                <span
+                  key={type.type.name}
+                  className="type-badge"
+                  style={{
+                    backgroundColor: getTypeColor(type.type.name)
+                  }}
+                >
+                  {getTypeName(type.type.name)}
+                </span>
+              ))}
+            </div>
+            <div className="stats">
+              <p>Points de vie: {pokemon.stats[0].base_stat}</p>
+              <p>Attaque: {pokemon.stats[1].base_stat}</p>
+              <p>Défense: {pokemon.stats[2].base_stat}</p>
+            </div>
+          </Link>
+        ))}
+      </div>
+
+      {similarPokemons.length > pokemonsPerPage && (
+        <div className="pagination">
+          <button 
+            onClick={() => paginate(currentPage - 1)} 
+            disabled={currentPage === 1}
+            className="page-button"
+          >
+            Précédent
+          </button>
+          
+          {[...Array(totalPages)].map((_, index) => {
+            const pageNumber = index + 1;
+            if (
+              pageNumber === 1 ||
+              pageNumber === totalPages ||
+              (pageNumber >= currentPage - 2 && pageNumber <= currentPage + 2)
+            ) {
+              return (
+                <button
+                  key={pageNumber}
+                  onClick={() => paginate(pageNumber)}
+                  className={`page-button ${currentPage === pageNumber ? 'active' : ''}`}
+                >
+                  {pageNumber}
+                </button>
+              );
+            }
+            if (pageNumber === currentPage - 3 || pageNumber === currentPage + 3) {
+              return <span key={pageNumber}>...</span>;
+            }
+            return null;
+          })}
+
+          <button 
+            onClick={() => paginate(currentPage + 1)} 
+            disabled={currentPage === totalPages}
+            className="page-button"
+          >
+            Suivant
+          </button>
+        </div>
+      )}
     </main>
   );
 }

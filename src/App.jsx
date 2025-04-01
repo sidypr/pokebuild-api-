@@ -30,10 +30,18 @@ function App() {
               <HomePage 
                 searchTerm={searchTerm} 
                 selectedType={selectedType}
+                onTypeSelect={handleTypeSelect}
               />
             } 
           />
-          <Route path="/pokemon/:id" element={<PokemonDetail />} />
+          <Route 
+            path="/pokemon/:id" 
+            element={
+              <PokemonDetail 
+                onTypeSelect={handleTypeSelect}
+              />
+            } 
+          />
         </Routes>
       </Layout>
     </Router>

@@ -1,49 +1,39 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useState } from 'react';
-import Layout from './components/Layout';
-import HomePage from './pages/HomePage';
+import Navbar from './components/Navbar';
+import Home from './pages/Home';
 import PokemonDetail from './pages/PokemonDetail';
+import RandomTeam from './pages/RandomTeam';
+import TypesGuide from './pages/TypesGuide';
+import About from './pages/About';
 
 function App() {
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedType, setSelectedType] = useState(null);
-
-  const handleSearch = (term) => {
-    setSearchTerm(term);
-  };
-
-  const handleTypeSelect = (type) => {
-    setSelectedType(type === selectedType ? null : type);
-  };
+  const [selectedType, setSelectedType] = useState('');
 
   return (
     <Router>
-      <Layout 
-        onSearch={handleSearch} 
-        onTypeSelect={handleTypeSelect}
-        selectedType={selectedType}
-      >
+      <div className="app">
+        <Navbar 
+          onSearch={setSearchTerm} 
+          onTypeSelect={setSelectedType}
+        />
         <Routes>
           <Route 
             path="/" 
             element={
-              <HomePage 
+              <Home 
                 searchTerm={searchTerm} 
                 selectedType={selectedType}
-                onTypeSelect={handleTypeSelect}
               />
             } 
           />
-          <Route 
-            path="/pokemon/:id" 
-            element={
-              <PokemonDetail 
-                onTypeSelect={handleTypeSelect}
-              />
-            } 
-          />
+          <Route path="/pokemon/:id" element={<PokemonDetail />} />
+          <Route path="/random-team" element={<RandomTeam />} />
+          <Route path="/types-guide" element={<TypesGuide />} />
+          <Route path="/about" element={<About />} />
         </Routes>
-      </Layout>
+      </div>
     </Router>
   );
 }

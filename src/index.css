@@ -35,6 +35,7 @@ body {
 .nav-content {
   max-width: 1200px;
   margin: 0 auto;
+  padding: 0 1rem;
 }
 
 .top-bar {
@@ -313,4 +314,381 @@ body {
 
 .pokemon-detail {
   margin-bottom: 3rem;
+}
+
+.team-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.team-header h1 {
+  font-size: 2rem;
+  color: var(--primary-color);
+}
+
+.refresh-button {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.refresh-button:hover {
+  background-color: var(--secondary-color);
+}
+
+.resistance-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.resistance-badge {
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.875rem;
+}
+
+.resistance-badge.resistant {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.resistance-badge.vulnerable {
+  background-color: #f44336;
+  color: white;
+}
+
+.resistance-badge.twice_resistant {
+  background-color: #2E7D32;
+  color: white;
+}
+
+.resistance-badge.twice_vulnerable {
+  background-color: #B71C1C;
+  color: white;
+}
+
+.resistance-badge.immune {
+  background-color: #9C27B0;
+  color: white;
+}
+
+.loading {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.5rem;
+  color: var(--primary-color);
+}
+
+/* Ajoutez ceci dans votre fichier CSS */
+.nav-links {
+  margin-right: 2rem;
+}
+
+.nav-link {
+  color: white;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.nav-link:hover {
+  background-color: var(--secondary-color);
+}
+
+/* Styles pour le guide des types */
+.types-guide-title {
+  text-align: center;
+  font-size: 2.5rem;
+  color: var(--primary-color);
+  margin-bottom: 2rem;
+}
+
+.types-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  padding: 1rem;
+}
+
+.type-section {
+  background: white;
+  border-radius: 8px;
+  border: 2px solid;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.type-title {
+  padding: 1rem;
+  margin: 0;
+  text-align: center;
+  font-size: 1.5rem;
+}
+
+.type-info {
+  padding: 1rem;
+}
+
+.type-relations {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.type-weakness h3,
+.type-strength h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  color: var(--primary-color);
+}
+
+.examples-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.example-card {
+  text-align: center;
+  padding: 0.5rem;
+  background: #f5f5f5;
+  border-radius: 4px;
+  transition: transform 0.2s;
+}
+
+.example-card:hover {
+  transform: translateY(-2px);
+}
+
+.example-image {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+}
+
+.example-name {
+  margin: 0.5rem 0 0;
+  font-size: 0.9rem;
+}
+
+/* Ajout du lien dans la navbar */
+.nav-links {
+  display: flex;
+  gap: 1rem;
+}
+
+/* Styles pour la page À propos */
+.about-container {
+  background: white;
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.about-title {
+  font-size: 2.5rem;
+  color: var(--primary-color);
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.about-content {
+  display: grid;
+  gap: 2rem;
+}
+
+.profile-section,
+.project-section {
+  padding: 1.5rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.profile-section h2,
+.project-section h2 {
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+.social-links {
+  margin-top: 1.5rem;
+}
+
+.social-link {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  text-decoration: none;
+  color: white;
+  font-weight: 500;
+  transition: transform 0.2s;
+}
+
+.social-link:hover {
+  transform: translateY(-2px);
+}
+
+.social-link.linkedin {
+  background-color: #0077b5;
+}
+
+.project-section ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.project-section li {
+  margin: 0.5rem 0;
+  padding-left: 1.5rem;
+  position: relative;
+}
+
+.project-section li::before {
+  content: "•";
+  color: var(--primary-color);
+  position: absolute;
+  left: 0;
+}
+
+/* Styles supplémentaires pour la page À propos */
+.developer-info {
+  margin-bottom: 1.5rem;
+}
+
+.developer-name {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--primary-color);
+  margin-bottom: 0.25rem;
+}
+
+.developer-title {
+  color: var(--secondary-color);
+  margin-bottom: 1rem;
+}
+
+.project-description {
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.features-section,
+.technical-section,
+.development-steps {
+  margin-top: 2rem;
+}
+
+.development-steps h3,
+.features-section h3,
+.technical-section h3 {
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+}
+
+.development-steps ol {
+  list-style-type: none;
+  counter-reset: steps;
+  padding: 0;
+}
+
+.development-steps li {
+  margin: 1.5rem 0;
+  padding-left: 2.5rem;
+  position: relative;
+}
+
+.development-steps li::before {
+  counter-increment: steps;
+  content: counter(steps);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1.8rem;
+  height: 1.8rem;
+  background-color: var(--primary-color);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+.development-steps strong {
+  display: block;
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
+}
+
+.development-steps p {
+  color: var(--text-color);
+  margin-left: 0.5rem;
+}
+
+.social-link i {
+  margin-right: 0.5rem;
+}
+
+/* Ajoutez ces styles à votre fichier CSS existant */
+.nav-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.nav-links {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.nav-link {
+  color: white;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+.nav-link:hover {
+  background-color: var(--secondary-color);
+  transform: translateY(-2px);
+}
+
+.nav-link.active {
+  background-color: var(--secondary-color);
+}
+
+@media (max-width: 768px) {
+  .top-bar {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .nav-links {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .search-form {
+    width: 100%;
+    margin-left: 0;
+  }
 } 

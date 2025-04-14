@@ -71,6 +71,14 @@ function PokemonDetail({ onTypeSelect }) {
     window.scrollTo(0, 0);
   };
 
+  const handleSimilarPokemonClick = () => {
+    // Faire défiler vers le haut de la page
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth' // Pour un défilement fluide
+    });
+  };
+
   if (!pokemon) return <div>Chargement...</div>;
 
   return (
@@ -147,7 +155,12 @@ function PokemonDetail({ onTypeSelect }) {
       
       <div className="grid">
         {currentPokemons.map((pokemon) => (
-          <Link to={`/pokemon/${pokemon.id}`} key={pokemon.id} className="card">
+          <Link
+            key={pokemon.id}
+            to={`/pokemon/${pokemon.id}`}
+            className="card"
+            onClick={handleSimilarPokemonClick}
+          >
             <img
               src={pokemon.sprites.front_default}
               alt={pokemon.name}
